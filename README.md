@@ -1,7 +1,7 @@
 # Simple-2D-OpenGL-engine
 A simple engine written in C++ using OpenGL for educational purposes.
 
-This project uses:
+##This project uses:
 - [GLFW](https://github.com/glfw/glfw) - Window creation and input
 - [GLAD](https://glad.dav1d.de/) - Loading OpenGL headers
 - [GLM](https://github.com/g-truc/glm) - Mathematics library
