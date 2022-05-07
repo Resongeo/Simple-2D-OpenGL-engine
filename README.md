@@ -7,3 +7,4 @@ A simple engine written in C++ using OpenGL for educational purposes.
 - [GLM](https://github.com/g-truc/glm) - Mathematics library
 - [stb_image](https://github.com/nothings/stb/blob/master/stb_image.h) - image loading/decoding
 - [Dear ImGui](https://github.com/ocornut/imgui) - Graphical user interface
+- [spdlog](https://github.com/gabime/spdlog) - Logging
