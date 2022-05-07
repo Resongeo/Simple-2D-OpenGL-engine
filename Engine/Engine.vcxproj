@@ -116,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\vendor\GLFW\include;$(SolutionDir)..\vendor\SPDLog\include;$(SolutionDir)..\vendor\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\vendor\GLFW\include;$(SolutionDir)..\vendor\SPDLog\include;$(SolutionDir)..\vendor\GLAD\include;$(SolutionDir)..\vendor\GLM;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,7 +133,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\vendor\GLFW\include;$(SolutionDir)..\vendor\SPDLog\include;$(SolutionDir)..\vendor\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\vendor\GLFW\include;$(SolutionDir)..\vendor\SPDLog\include;$(SolutionDir)..\vendor\GLAD\include;$(SolutionDir)..\vendor\GLM;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,13 +147,20 @@
   <ItemGroup>
     <ClCompile Include="Core\glad.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Renderer\Shader.cpp" />
     <ClCompile Include="Utils\Log.cpp" />
     <ClCompile Include="Core\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Cobalt.h" />
+    <ClInclude Include="Renderer\Shader.h" />
     <ClInclude Include="Utils\Log.h" />
     <ClInclude Include="Core\Window.h" />
+    <ClInclude Include="Utils\Math.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\Default.frag" />
+    <None Include="shaders\Default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
