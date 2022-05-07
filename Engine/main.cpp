@@ -10,7 +10,9 @@ int main()
 	while (!glfwWindowShouldClose(window.GetWindow()))
 	{
 		glfwPollEvents();
+
 		glClear(GL_COLOR_BUFFER_BIT);
+
 		glfwSwapBuffers(window.GetWindow());
 	}
 

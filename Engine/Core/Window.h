@@ -9,19 +9,22 @@ namespace Cobalt
 	public:
 		Window(int width, int height, const char* title);
 
-		int GetWidth() { return m_width; }
-		int GetHeight() { return m_height; }
+		int GetWidth();
+		int GetHeight();
 		const char* GetTitle() { return m_title; }
 		GLFWwindow* GetWindow() { return m_window; }
+		GLFWmonitor* GetMonitor() { return m_monitor; }
 
 		void SetVsync(bool value);
 		void Destroy();
 
 	private:
-		int m_width;
-		int m_height;
 		const char* m_title;
-
 		GLFWwindow* m_window;
+		GLFWmonitor* m_monitor;
+
+		/* Callback methods */
+
+		static void FrameBuffer_Size_Callback(GLFWwindow* window, int width, int height);
 	};
 }
