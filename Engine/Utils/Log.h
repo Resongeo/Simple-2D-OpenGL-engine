@@ -22,3 +22,5 @@ namespace Cobalt
 #define CB_LOG_INFO(...)	::Cobalt::Log::GetLogger()->info(__VA_ARGS__)
 #define CB_LOG_WARN(...)	::Cobalt::Log::GetLogger()->warn(__VA_ARGS__)
 #define CB_LOG_ERROR(...)	::Cobalt::Log::GetLogger()->error(__VA_ARGS__)
+
+// Inspired by Hazel's log system by The Cherno https://github.com/TheCherno/Hazel
