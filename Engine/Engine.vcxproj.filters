@@ -102,5 +102,6 @@
   <ItemGroup>
     <None Include="shaders\Default.frag" />
     <None Include="shaders\Default.vert" />
+    <None Include="imgui.ini" />
   </ItemGroup>
 </Project>

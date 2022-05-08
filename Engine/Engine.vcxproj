@@ -176,6 +176,7 @@
     <ClInclude Include="Utils\Math.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="imgui.ini" />
     <None Include="shaders\Default.frag" />
     <None Include="shaders\Default.vert" />
   </ItemGroup>

@@ -7,10 +7,10 @@
 int main()
 {
 	Cobalt::Log::Init();
-	Cobalt::Window window(1280, 720, "Cobalt Engine");
+	Cobalt::Window window(1920, 1080, "Cobalt Engine");
 	window.SetVsync(true);
 
-	Cobalt::Shader defaultShader("shaders/Default.vert", "shaders/Default.frag");
+	Cobalt::Shader defaultShader("../resources/shaders/Default.vert", "../resources/shaders/Default.frag");
 
 	/* Temporary code */
 	float vertices[] = {
@@ -42,7 +42,10 @@ int main()
 	Cobalt::ImGUI::Init(window.GetWindow());
 	Cobalt::ImGUI::SetupStyle();
 
-	float bg_col[3] = { 0.14, 0.14, 0.14 };
+	float bg_col[3] = { 0.15, 0.16, 0.17 };
+	float rect_col[3] = { 0.24, 0.47, 0.65 };
+
+	bool showDemoWindow = false;
 
 	while (!glfwWindowShouldClose(window.GetWindow()))
 	{
@@ -55,12 +58,21 @@ int main()
 		{
 			ImGui::Begin("Test window");
 
+			ImGui::Text("");
 			ImGui::ColorEdit3("Background", bg_col);
+			ImGui::Spacing();
+			ImGui::ColorEdit3("Rect color", rect_col);
+
+			ImGui::Spacing(); ImGui::Spacing();
+			ImGui::Checkbox("Show demo window", &showDemoWindow);
 
 			ImGui::End();
 		}
 
+		if (showDemoWindow) ImGui::ShowDemoWindow();
+
 		defaultShader.Use();
+		defaultShader.SetVec3("custom_color", rect_col[0], rect_col[1], rect_col[2]);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
