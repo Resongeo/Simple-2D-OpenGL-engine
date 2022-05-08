@@ -1,6 +1,8 @@
+#include "ImGui_CobaltEngine_Impl.h"
 #include "Core/Cobalt.h"
 #include "Core/Window.h"
 #include "Renderer/Shader.h"
+
 
 int main()
 {
@@ -8,9 +10,9 @@ int main()
 	Cobalt::Window window(1280, 720, "Cobalt Engine");
 	window.SetVsync(true);
 
-	Shader defaultShader("shaders/Default.vert", "shaders/Default.vert");
+	Cobalt::Shader defaultShader("shaders/Default.vert", "shaders/Default.frag");
 
-	// Temporary code
+	/* Temporary code */
 	float vertices[] = {
 		 0.5f,  0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
@@ -37,19 +39,36 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	Cobalt::ImGUI::Init(window.GetWindow());
+	Cobalt::ImGUI::SetupStyle();
+
+	float bg_col[3] = { 0.14, 0.14, 0.14 };
+
 	while (!glfwWindowShouldClose(window.GetWindow()))
 	{
-		glfwPollEvents();
-
+		glClearColor(bg_col[0], bg_col[1], bg_col[2], 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+		
+		glfwPollEvents();
+		Cobalt::ImGUI::NewFrame();
+
+		{
+			ImGui::Begin("Test window");
+
+			ImGui::ColorEdit3("Background", bg_col);
+
+			ImGui::End();
+		}
 
 		defaultShader.Use();
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		Cobalt::ImGUI::Render();
 		glfwSwapBuffers(window.GetWindow());
 	}
 
+	Cobalt::ImGUI::ShutDown();
 	window.Destroy();
 
 	return 0;
