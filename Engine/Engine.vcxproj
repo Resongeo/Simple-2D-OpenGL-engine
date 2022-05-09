@@ -177,6 +177,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
+    <None Include="resources\shaders\Default.frag" />
+    <None Include="resources\shaders\Default.vert" />
     <None Include="shaders\Default.frag" />
     <None Include="shaders\Default.vert" />
   </ItemGroup>
