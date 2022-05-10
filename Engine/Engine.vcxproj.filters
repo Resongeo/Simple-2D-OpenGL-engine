@@ -105,5 +105,6 @@
     <None Include="imgui.ini" />
     <None Include="resources\shaders\Default.frag" />
     <None Include="resources\shaders\Default.vert" />
+    <None Include="resources\shaders\Animated_Smiley.frag" />
   </ItemGroup>
 </Project>

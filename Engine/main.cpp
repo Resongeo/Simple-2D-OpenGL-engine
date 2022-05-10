@@ -109,7 +109,6 @@ int main()
 		defaultShader.SetVec3("bg_col", bg_col[0], bg_col[1], bg_col[2]);
 		defaultShader.SetVec2("resulotion", glm::vec2(window.GetWidth(), window.GetHeight()));
 		defaultShader.SetFloat("edge_smoothness", edge_smoothness);
-		defaultShader.SetFloat("iTime", glfwGetTime());
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
