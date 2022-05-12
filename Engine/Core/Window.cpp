@@ -21,25 +21,16 @@ namespace Cobalt
 		glfwMakeContextCurrent(m_window);
 
 		glfwSetFramebufferSizeCallback(m_window, Window::FrameBuffer_Size_Callback);
+		glfwSetErrorCallback(Window::Error_Callback);
+
+		int sys_width = GetSystemMetrics(SM_CXSCREEN);
+		int sys_height = GetSystemMetrics(SM_CYSCREEN);
+		glfwSetWindowMonitor(m_window, nullptr, (sys_width / 2) - (width / 2), (sys_height / 2) - (height / 2), width, height, GLFW_DONT_CARE);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) CB_LOG_ERROR("Failed to load GLAD!");
 		else
 			printf("OpenGL version: %s\n", glGetString(GL_VERSION));
 			printf("Renderer device: %s\n", glGetString(GL_RENDERER));
-	}
-
-	int Window::GetWidth()
-	{
-		int width, height;
-		glfwGetWindowSize(m_window, &width, &height);
-		return width;
-	}
-
-	int Window::GetHeight()
-	{
-		int width, height;
-		glfwGetWindowSize(m_window, &width, &height);
-		return height;
 	}
 
 	void Window::SetVsync(bool value) { glfwSwapInterval((int)value); }
@@ -55,5 +46,10 @@ namespace Cobalt
 	void Window::FrameBuffer_Size_Callback(GLFWwindow* window, int width, int height)
 	{
 		glViewport(0, 0, width, height);
+	}
+
+	void Window::Error_Callback(int, const char* error_message)
+	{
+		CB_LOG_ERROR("GFLW error: {}", error_message);
 	}
 }

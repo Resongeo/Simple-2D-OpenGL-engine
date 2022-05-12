@@ -156,7 +156,10 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Renderer\Shader.cpp" />
+    <ClCompile Include="Renderer\Sprite.cpp" />
+    <ClCompile Include="Renderer\stb_image.cpp" />
     <ClCompile Include="Utils\Log.cpp" />
     <ClCompile Include="Core\Window.cpp" />
   </ItemGroup>
@@ -172,7 +175,10 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Renderer\Shader.h" />
+    <ClInclude Include="Renderer\Sprite.h" />
+    <ClInclude Include="Renderer\stb_image.h" />
     <ClInclude Include="Utils\Log.h" />
     <ClInclude Include="Core\Window.h" />
     <ClInclude Include="Utils\Math.h" />
@@ -184,6 +190,9 @@
     <None Include="resources\shaders\Default.vert" />
     <None Include="shaders\Default.frag" />
     <None Include="shaders\Default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\sprites\test.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

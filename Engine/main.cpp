@@ -2,6 +2,7 @@
 #include "Core/Cobalt.h"
 #include "Core/Window.h"
 #include "Renderer/Shader.h"
+#include "Renderer/Renderer.h"
 
 float deltaTime;
 float lastFrame;
@@ -17,43 +18,18 @@ int main()
 	window.SetVsync(false);
 
 	Cobalt::Shader defaultShader("resources/shaders/Default.vert", "resources/shaders/Default.frag");
+	Cobalt::Sprite sprite("resources/sprites/test.jpg");
 
-	/* Temporary code */
-	float vertices[] = {
-		 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
-	};
-	unsigned int indices[] = {
-		0, 1, 3,
-		1, 2, 3
-	};
+	Cobalt::Renderer Renderer2D(defaultShader);
+	Renderer2D.Init();
 
-	unsigned int VBO, VAO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()), 0.0f, -1.0f, 1.0f);
 
 	Cobalt::ImGUI::Init(window.GetWindow());
 	Cobalt::ImGUI::SetupStyle();
 
 	float bg_col[3] = { 0.15, 0.16, 0.17 };
-	float rect_col[3] = { 0.24, 0.47, 0.65 };
-	float edge_smoothness = 0.005;
+	float sprite_tint[3] = { 1.0, 1.0, 1.0 };
 
 	bool showDemoWindow = false;
 
@@ -78,15 +54,16 @@ int main()
 		glfwPollEvents();
 		Cobalt::ImGUI::NewFrame();
 
+		#pragma region ImGui
+
 		{
 			ImGui::Begin("Test window");
 
 			ImGui::Text("");
 			ImGui::ColorEdit3("Background", bg_col);
 			ImGui::Spacing();
-			ImGui::ColorEdit3("Circle color", rect_col);
-			ImGui::Spacing(); ImGui::Spacing();
-			ImGui::SliderFloat("Falloff", &edge_smoothness, 0.005f, 0.1f, "%.3f");
+			ImGui::ColorEdit3("Sprite tint", sprite_tint);
+			ImGui::Spacing();
 
 			ImGui::Text("");
 			ImGui::Checkbox("Show demo window", &showDemoWindow);
@@ -104,13 +81,17 @@ int main()
 
 		if (showDemoWindow) ImGui::ShowDemoWindow();
 
-		defaultShader.Use();
-		defaultShader.SetVec3("custom_color", rect_col[0], rect_col[1], rect_col[2]);
-		defaultShader.SetVec3("bg_col", bg_col[0], bg_col[1], bg_col[2]);
-		defaultShader.SetVec2("resulotion", glm::vec2(window.GetWidth(), window.GetHeight()));
-		defaultShader.SetFloat("edge_smoothness", edge_smoothness);
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		#pragma endregion
+
+
+		for (int i = -2; i <= 2; i++)
+		{
+			glm::mat4 transform = glm::mat4(1.0);
+			transform = glm::translate(transform, glm::vec3(i * 0.3, 0.0, 0.0));
+			transform = glm::rotate(transform, glm::radians(i * 90.0f), glm::vec3(0.0, 0.0, 1.0));
+			transform = glm::scale(transform, glm::vec3(0.2));
+			Renderer2D.DrawQuad(transform, projection, sprite, glm::vec3(sprite_tint[0], sprite_tint[1], sprite_tint[2]));
+		}
 
 		Cobalt::ImGUI::Render();
 		glfwSwapBuffers(window.GetWindow());
