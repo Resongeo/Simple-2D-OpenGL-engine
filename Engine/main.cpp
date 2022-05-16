@@ -23,7 +23,6 @@ int main()
 	Cobalt::Renderer Renderer2D(defaultShader);
 	Renderer2D.Init();
 
-	glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(window.GetWidth()), static_cast<float>(window.GetHeight()), 0.0f, -1.0f, 1.0f);
 
 	Cobalt::ImGUI::Init(window.GetWindow());
 	Cobalt::ImGUI::SetupStyle();
@@ -84,14 +83,17 @@ int main()
 		#pragma endregion
 
 
-		for (int i = -2; i <= 2; i++)
-		{
-			glm::mat4 transform = glm::mat4(1.0);
-			transform = glm::translate(transform, glm::vec3(i * 0.3, 0.0, 0.0));
-			transform = glm::rotate(transform, glm::radians(i * 90.0f), glm::vec3(0.0, 0.0, 1.0));
-			transform = glm::scale(transform, glm::vec3(0.2));
-			Renderer2D.DrawQuad(transform, projection, sprite, glm::vec3(sprite_tint[0], sprite_tint[1], sprite_tint[2]));
-		}
+		float camera_size = 4.f;
+		float left = -((window.GetWidth() / window.GetHeight()) / 2.f) * camera_size;
+		float right = ((window.GetWidth() / window.GetHeight()) / 2.f) * camera_size;
+		float bottom = -0.5f * camera_size;
+		float top = 0.5f * camera_size;
+		glm::mat4 projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+
+
+		glm::mat4 model{1.0};
+		Renderer2D.DrawQuad(model, projection, sprite, glm::vec3(sprite_tint[0], sprite_tint[1], sprite_tint[2]));
+		
 
 		Cobalt::ImGUI::Render();
 		glfwSwapBuffers(window.GetWindow());

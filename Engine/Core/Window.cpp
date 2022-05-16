@@ -33,6 +33,20 @@ namespace Cobalt
 			printf("Renderer device: %s\n", glGetString(GL_RENDERER));
 	}
 
+	float Window::GetWidth()
+	{
+		int width, height;
+		glfwGetWindowSize(m_window, &width, &height);
+		return static_cast<float>(width);
+	}
+
+	float Window::GetHeight()
+	{
+		int width, height;
+		glfwGetWindowSize(m_window, &width, &height);
+		return static_cast<float>(height);
+	}
+
 	void Window::SetVsync(bool value) { glfwSwapInterval((int)value); }
 
 	void Window::Destroy()

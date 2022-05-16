@@ -43,8 +43,9 @@ namespace Cobalt
 	{
 		this->shader.Use();
 
-		this->shader.SetMat4("transform", transform);
 		this->shader.SetMat4("projection", projection);
+		this->shader.SetMat4("view", glm::mat4(1.0));
+		this->shader.SetMat4("transform", transform);
 		this->shader.SetVec4("color", glm::vec4(color, 1.0f));
 
 		glActiveTexture(GL_TEXTURE0);

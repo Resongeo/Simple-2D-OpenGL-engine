@@ -9,8 +9,8 @@ namespace Cobalt
 	public:
 		Window(int width, int height, const char* title);
 
-		int GetWidth() { return glfwGetVideoMode(m_monitor)->width; }
-		int GetHeight() { return glfwGetVideoMode(m_monitor)->height; }
+		float GetWidth();
+		float GetHeight();
 		const char* GetTitle() { return m_title; }
 		GLFWwindow* GetWindow() { return m_window; }
 		GLFWmonitor* GetMonitor() { return m_monitor; }
