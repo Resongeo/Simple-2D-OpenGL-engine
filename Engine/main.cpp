@@ -9,7 +9,6 @@
 #include "Scene/Scene.h"
 
 
-
 float deltaTime;
 float lastFrame;
 
@@ -20,10 +19,8 @@ float fpsCounter = 0.0f;
 float camera_size = 2.f;
 
 float bg_col[3] = { 0.15f, 0.16f, 0.17f };
-glm::vec3 sprite_tint{ 1.0 };
 
 bool showDemoWindow = false;
-
 
 
 int main()
@@ -72,7 +69,6 @@ int main()
 
 			ImGui::Text("");
 			ImGui::ColorEdit3("Background", bg_col);
-			ImGui::ColorEdit3("Sprite tint", glm::value_ptr(sprite_tint));
 
 			ImGui::Spacing();
 			ImGui::Spacing();
@@ -101,17 +97,6 @@ int main()
 		if (showDemoWindow) ImGui::ShowDemoWindow();
 
 		#pragma endregion
-
-
-		float left = -((window.GetWidth() / window.GetHeight()) / 2.f) * camera_size;
-		float right = ((window.GetWidth() / window.GetHeight()) / 2.f) * camera_size;
-		float bottom = -0.5f * camera_size;
-		float top = 0.5f * camera_size;
-		glm::mat4 projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
-
-		glm::mat4 model{1.0};
-		model = glm::translate(model, glm::vec3(-1.f, 0.0f, 0.0f));
-		//Renderer2D.DrawQuad(model, projection, sprite_tint);
 		
 		StarterScene.Update(deltaTime);
 
