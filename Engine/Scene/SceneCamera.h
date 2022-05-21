@@ -28,9 +28,9 @@ namespace Cobalt
 		void SetOrthographicSize(float size) { m_orthographicSize = size; }
 		float GetOrthographicSize() const { return m_orthographicSize; }
 
-	private:
 		void RecalculateProjection();
 
+	private:
 		glm::mat4 m_projection{ 1.0f };
 		ProjectionType m_projectionType = ProjectionType::Orthographic;
 
@@ -38,7 +38,7 @@ namespace Cobalt
 
 		/* Perspective vars */
 
-		float m_perspectiveFOV = 45.0f;
+		float m_perspectiveFOV = 70.0f;
 		float m_perspectiveNear = 0.05f;
 		float m_perspectiveFar = 100.0f;
 

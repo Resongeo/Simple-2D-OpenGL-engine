@@ -17,6 +17,7 @@ float nextTimeToRefreshFPS = 1.0f;
 float fpsCounter = 0.0f;
 
 float camera_size = 2.f;
+float camera_fov = 70.0f;
 
 float bg_col[3] = { 0.15f, 0.16f, 0.17f };
 
@@ -74,10 +75,21 @@ int main()
 			ImGui::Spacing();
 
 			ImGui::Text("Camera");
-			ImGui::SliderFloat("Size", &camera_size, 1.f, 10.f);
-			ImGui::Spacing();
-			if (ImGui::Button("Reset")) camera_size = 2.f;
-			StarterScene.SceneCamera.SetOrthographicSize(camera_size);
+
+			const char* projection_types[] = {"Perspective", "Orthographic"};
+			static int index = 1;
+			ImGui::Combo("Projection", &index, projection_types, IM_ARRAYSIZE(projection_types));
+
+			if (index == 0) {
+				StarterScene.SceneCamera.SetProjectionType(Cobalt::SceneCamera::ProjectionType::Perspective);
+				ImGui::SliderFloat("FOV", &camera_fov, 45.f, 90.f);
+				StarterScene.SceneCamera.SetPerspectiveFOV(camera_fov);
+			}
+			else {
+				StarterScene.SceneCamera.SetProjectionType(Cobalt::SceneCamera::ProjectionType::Orthographic);
+				ImGui::SliderFloat("Size", &camera_size, 1.f, 10.f);
+				StarterScene.SceneCamera.SetOrthographicSize(camera_size);
+			}
 
 			ImGui::Text("");
 			ImGui::Checkbox("Show demo window", &showDemoWindow);

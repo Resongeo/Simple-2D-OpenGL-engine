@@ -15,15 +15,17 @@ namespace Cobalt
 				entt::entity entity = m_Registry.create();
 				m_Registry.emplace<TagComponent>(entity, "Actor");
 				TransformComponent transform;
-				transform.Location = glm::vec3((float)j, (float)i, 0.0f);
+				transform.Location = glm::vec3((float)j, (float)i, -1.0f);
 				transform.Scale = glm::vec3(0.8f);
 				m_Registry.emplace<TransformComponent>(entity, transform);
 			}
 		}
+
 	}
 
 	void Scene::Update(float deltaTime)
 	{
+		SceneCamera.RecalculateProjection();
 		SceneCamera.SetAspectRatio(m_window.GetWidth(), m_window.GetHeight());
 
 		auto view = m_Registry.view<TransformComponent>();
