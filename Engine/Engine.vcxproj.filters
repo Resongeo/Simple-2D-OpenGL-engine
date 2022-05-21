@@ -60,6 +60,12 @@
     <ClCompile Include="Renderer\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utils\Log.h">
@@ -116,6 +122,15 @@
     <ClInclude Include="Renderer\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Components.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\Default.frag" />
@@ -124,9 +139,13 @@
     <None Include="resources\shaders\Default.frag" />
     <None Include="resources\shaders\Default.vert" />
     <None Include="resources\shaders\Animated_Smiley.frag" />
+    <None Include="resources\shaders\Test.frag" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\sprites\test.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\sprites\uv_grid.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

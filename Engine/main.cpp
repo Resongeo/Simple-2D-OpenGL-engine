@@ -1,8 +1,14 @@
 #include "ImGui_CobaltEngine_Impl.h"
+
 #include "Core/Cobalt.h"
 #include "Core/Window.h"
+
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
+
+#include "Scene/Scene.h"
+
+
 
 float deltaTime;
 float lastFrame;
@@ -11,6 +17,15 @@ float fpsRefreshInterval = 0.5f;
 float nextTimeToRefreshFPS = 1.0f;
 float fpsCounter = 0.0f;
 
+float camera_size = 2.f;
+
+float bg_col[3] = { 0.15f, 0.16f, 0.17f };
+glm::vec3 sprite_tint{ 1.0 };
+
+bool showDemoWindow = false;
+
+
+
 int main()
 {
 	Cobalt::Log::Init();
@@ -18,19 +33,15 @@ int main()
 	window.SetVsync(false);
 
 	Cobalt::Shader defaultShader("resources/shaders/Default.vert", "resources/shaders/Default.frag");
-	Cobalt::Sprite sprite("resources/sprites/test.jpg");
+	Cobalt::Sprite defaultSprite("resources/sprites/uv_grid.png");
 
-	Cobalt::Renderer Renderer2D(defaultShader);
+	Cobalt::Renderer Renderer2D(defaultShader, defaultSprite);
 	Renderer2D.Init();
-
 
 	Cobalt::ImGUI::Init(window.GetWindow());
 	Cobalt::ImGUI::SetupStyle();
 
-	float bg_col[3] = { 0.15, 0.16, 0.17 };
-	float sprite_tint[3] = { 1.0, 1.0, 1.0 };
-
-	bool showDemoWindow = false;
+	Cobalt::Scene StarterScene("Startup", window);
 
 	while (!glfwWindowShouldClose(window.GetWindow()))
 	{
@@ -47,7 +58,7 @@ int main()
 			fpsRefreshInterval -= deltaTime;
 		}
 
-		glClearColor(bg_col[0], bg_col[1], bg_col[2], 1.0);
+		glClearColor(bg_col[0], bg_col[1], bg_col[2], 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		glfwPollEvents();
@@ -56,13 +67,21 @@ int main()
 		#pragma region ImGui
 
 		{
+			ImGui::SetNextWindowPos(ImVec2(20, 20));
 			ImGui::Begin("Test window");
 
 			ImGui::Text("");
 			ImGui::ColorEdit3("Background", bg_col);
+			ImGui::ColorEdit3("Sprite tint", glm::value_ptr(sprite_tint));
+
 			ImGui::Spacing();
-			ImGui::ColorEdit3("Sprite tint", sprite_tint);
 			ImGui::Spacing();
+
+			ImGui::Text("Camera");
+			ImGui::SliderFloat("Size", &camera_size, 1.f, 10.f);
+			ImGui::Spacing();
+			if (ImGui::Button("Reset")) camera_size = 2.f;
+			StarterScene.SceneCamera.SetOrthographicSize(camera_size);
 
 			ImGui::Text("");
 			ImGui::Checkbox("Show demo window", &showDemoWindow);
@@ -70,6 +89,7 @@ int main()
 			ImGui::End();
 		}
 		{
+			ImGui::SetNextWindowPos(ImVec2(window.GetWidth() - 118, 20));
 			bool open = true;
 			ImGui::Begin("FPS", &open, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
 
@@ -83,17 +103,17 @@ int main()
 		#pragma endregion
 
 
-		float camera_size = 4.f;
 		float left = -((window.GetWidth() / window.GetHeight()) / 2.f) * camera_size;
 		float right = ((window.GetWidth() / window.GetHeight()) / 2.f) * camera_size;
 		float bottom = -0.5f * camera_size;
 		float top = 0.5f * camera_size;
 		glm::mat4 projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 
-
 		glm::mat4 model{1.0};
-		Renderer2D.DrawQuad(model, projection, sprite, glm::vec3(sprite_tint[0], sprite_tint[1], sprite_tint[2]));
+		model = glm::translate(model, glm::vec3(-1.f, 0.0f, 0.0f));
+		//Renderer2D.DrawQuad(model, projection, sprite_tint);
 		
+		StarterScene.Update(deltaTime);
 
 		Cobalt::ImGUI::Render();
 		glfwSwapBuffers(window.GetWindow());

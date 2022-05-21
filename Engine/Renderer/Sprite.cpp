@@ -28,7 +28,7 @@ namespace Cobalt
 		}
 		else
 		{
-			CB_LOG_ERROR("Failed to create texture: {}", path);
+			CB_LOG_ERROR("Failed to create sprite: {}", path);
 			stbi_image_free(data);
 		}
 	}

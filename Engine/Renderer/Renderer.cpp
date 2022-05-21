@@ -2,7 +2,7 @@
 
 namespace Cobalt
 {
-	Renderer::Renderer(Shader& defaultShader) : shader(defaultShader) { }
+	Renderer::Renderer(Shader& defaultShader, Sprite& defaultSprite) : m_defaultShader(defaultShader), m_defaultSprite(defaultSprite), m_shader(defaultShader), m_sprite(defaultSprite) { }
 
 	Renderer::~Renderer()
 	{
@@ -39,17 +39,75 @@ namespace Cobalt
 		glEnableVertexAttribArray(0);
 	}
 
+	void Renderer::SetShader(Shader& shader)
+	{
+		this->m_shader = shader;
+	}
+
+	void Renderer::SetSprite(Sprite& sprite)
+	{
+		this->m_sprite = sprite;
+	}
+
 	void Renderer::DrawQuad(glm::mat4 transform, glm::mat4 projection, Sprite& sprite, glm::vec3 color)
 	{
-		this->shader.Use();
+		this->m_shader.Use();
 
-		this->shader.SetMat4("projection", projection);
-		this->shader.SetMat4("view", glm::mat4(1.0));
-		this->shader.SetMat4("transform", transform);
-		this->shader.SetVec4("color", glm::vec4(color, 1.0f));
+		this->m_shader.SetMat4("projection", projection);
+		this->m_shader.SetMat4("view", glm::mat4(1.0));
+		this->m_shader.SetMat4("transform", transform);
+		this->m_shader.SetVec4("color", glm::vec4(color, 1.0f));
 
 		glActiveTexture(GL_TEXTURE0);
 		sprite.Bind();
+
+		glBindVertexArray(this->m_vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	}
+
+	void Renderer::DrawQuad(glm::mat4 transform, glm::mat4 projection, Sprite& sprite)
+	{
+		this->m_shader.Use();
+
+		this->m_shader.SetMat4("projection", projection);
+		this->m_shader.SetMat4("view", glm::mat4(1.0));
+		this->m_shader.SetMat4("transform", transform);
+		this->m_shader.SetVec4("color", glm::vec4(1.0f));
+
+		glActiveTexture(GL_TEXTURE0);
+		sprite.Bind();
+
+		glBindVertexArray(this->m_vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	}
+
+	void Renderer::DrawQuad(glm::mat4 transform, glm::mat4 projection, glm::vec3 color)
+	{
+		this->m_shader.Use();
+
+		this->m_shader.SetMat4("projection", projection);
+		this->m_shader.SetMat4("view", glm::mat4(1.0));
+		this->m_shader.SetMat4("transform", transform);
+		this->m_shader.SetVec4("color", glm::vec4(color, 1.0f));
+
+		glActiveTexture(GL_TEXTURE0);
+		this->m_defaultSprite.Bind();
+
+		glBindVertexArray(this->m_vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	}
+
+	void Renderer::DrawQuad(glm::mat4 transform, glm::mat4 projection)
+	{
+		this->m_defaultShader.Use();
+
+		this->m_defaultShader.SetMat4("projection", projection);
+		this->m_defaultShader.SetMat4("view", glm::mat4(1.0));
+		this->m_defaultShader.SetMat4("transform", transform);
+		this->m_defaultShader.SetVec4("color", glm::vec4(1.0f));
+
+		glActiveTexture(GL_TEXTURE0);
+		this->m_defaultSprite.Bind();
 
 		glBindVertexArray(this->m_vao);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

@@ -160,6 +160,8 @@
     <ClCompile Include="Renderer\Shader.cpp" />
     <ClCompile Include="Renderer\Sprite.cpp" />
     <ClCompile Include="Renderer\stb_image.cpp" />
+    <ClCompile Include="Scene\SceneCamera.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Utils\Log.cpp" />
     <ClCompile Include="Core\Window.cpp" />
   </ItemGroup>
@@ -179,6 +181,9 @@
     <ClInclude Include="Renderer\Shader.h" />
     <ClInclude Include="Renderer\Sprite.h" />
     <ClInclude Include="Renderer\stb_image.h" />
+    <ClInclude Include="Scene\SceneCamera.h" />
+    <ClInclude Include="Scene\Components.h" />
+    <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Utils\Log.h" />
     <ClInclude Include="Core\Window.h" />
     <ClInclude Include="Utils\Math.h" />
@@ -188,11 +193,13 @@
     <None Include="resources\shaders\Animated_Smiley.frag" />
     <None Include="resources\shaders\Default.frag" />
     <None Include="resources\shaders\Default.vert" />
+    <None Include="resources\shaders\Test.frag" />
     <None Include="shaders\Default.frag" />
     <None Include="shaders\Default.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\sprites\test.jpg" />
+    <Image Include="resources\sprites\uv_grid.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
