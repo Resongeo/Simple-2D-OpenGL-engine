@@ -9,8 +9,8 @@ namespace Cobalt
 {
 	struct TagComponent
 	{
-		const char* Name;
-		TagComponent(const char* name) : Name(name) {}
+		std::string Name;
+		TagComponent(const std::string& name) : Name(name) {}
 	};
 
 	struct TransformComponent

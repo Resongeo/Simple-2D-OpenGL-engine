@@ -65,16 +65,15 @@ int main()
 		#pragma region ImGui
 
 		{
-			ImGui::SetNextWindowPos(ImVec2(20, 20));
 			ImGui::Begin("Test window");
 
-			ImGui::Text("");
+			ImGui::Text("Colors");
 			ImGui::ColorEdit3("Background", bg_col);
 
 			ImGui::Spacing();
 			ImGui::Spacing();
 
-			ImGui::Text("Camera");
+			ImGui::Text("Scene Camera");
 
 			const char* projection_types[] = {"Perspective", "Orthographic"};
 			static int index = 1;
@@ -94,13 +93,8 @@ int main()
 			ImGui::Text("");
 			ImGui::Checkbox("Show demo window", &showDemoWindow);
 
-			ImGui::End();
-		}
-		{
-			ImGui::SetNextWindowPos(ImVec2(window.GetWidth() - 118, 20));
-			bool open = true;
-			ImGui::Begin("FPS", &open, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
-
+			
+			ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 25);
 			ImGui::Text(("FPS: " + std::to_string((int)fpsCounter)).c_str());
 
 			ImGui::End();
