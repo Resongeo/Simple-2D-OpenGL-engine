@@ -21,6 +21,8 @@ namespace Cobalt
 	public:
 		Scene(const char* name, Window& window);
 
+		entt::entity CreateEntity(std::string name);
+
 		void Update(float deltaTime);
 
 		SceneCamera SceneCamera;

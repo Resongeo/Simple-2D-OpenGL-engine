@@ -45,6 +45,12 @@ namespace Cobalt
 			style->Colors[ImGuiCol_FrameBg] = ImColor(255, 255, 255, 44);
 			style->Colors[ImGuiCol_FrameBgHovered] = ImColor(255, 255, 255, 100);
 			style->Colors[ImGuiCol_FrameBgActive] = ImColor(48, 48, 48, 150);
+			style->Colors[ImGuiCol_TabActive] = ImColor(0, 0, 0, 0);
+			style->Colors[ImGuiCol_TabUnfocused] = ImColor(0, 0, 0, 0);
+			style->Colors[ImGuiCol_TabUnfocusedActive] = ImColor(0, 0, 0, 0);
+			style->Colors[ImGuiCol_Button] = ImColor(115, 165, 215, 100);
+			style->Colors[ImGuiCol_ButtonHovered] = ImColor(115, 165, 215, 165);
+			style->Colors[ImGuiCol_ButtonActive] = ImColor(35, 70, 120, 255);
 		}
 
 		static void NewFrame()
@@ -52,6 +58,8 @@ namespace Cobalt
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
+
+			ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 		}
 
 		static void Render()

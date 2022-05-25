@@ -5,6 +5,7 @@
 
 #include "Renderer/Shader.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Framebuffer.h"
 
 #include "Scene/Scene.h"
 
@@ -23,6 +24,7 @@ float bg_col[3] = { 0.15f, 0.16f, 0.17f };
 
 bool showDemoWindow = false;
 
+ImVec2 viewportSize{ 0.0f, 0.0f };
 
 int main()
 {
@@ -35,6 +37,9 @@ int main()
 
 	Cobalt::Renderer Renderer2D(defaultShader, defaultSprite);
 	Renderer2D.Init();
+
+	Cobalt::Framebuffer FrameBuffer((int)window.GetWidth(), (int)window.GetHeight());
+	FrameBuffer.Create();
 
 	Cobalt::ImGUI::Init(window.GetWindow());
 	Cobalt::ImGUI::SetupStyle();
@@ -55,6 +60,8 @@ int main()
 		else {
 			fpsRefreshInterval -= deltaTime;
 		}
+
+		FrameBuffer.Bind();
 
 		glClearColor(bg_col[0], bg_col[1], bg_col[2], 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -93,9 +100,26 @@ int main()
 			ImGui::Text("");
 			ImGui::Checkbox("Show demo window", &showDemoWindow);
 
+			if (ImGui::Button("Create Entity")) {
+				StarterScene.CreateEntity("Entity");
+			}
 			
 			ImGui::SetCursorPosY(ImGui::GetWindowSize().y - 25);
 			ImGui::Text(("FPS: " + std::to_string((int)fpsCounter)).c_str());
+
+			ImGui::End();
+		}
+
+		{
+			ImGui::Begin("Viewport");
+			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+			StarterScene.SceneCamera.SetAspectRatio(viewportPanelSize.x, viewportPanelSize.y);
+			if (viewportSize.x != viewportPanelSize.x && viewportSize.y != viewportPanelSize.y) {
+				viewportSize = viewportPanelSize;
+				FrameBuffer.Resize(viewportPanelSize.x, viewportPanelSize.y);
+			}
+
+			ImGui::Image((void*)FrameBuffer.GetColorbuffer(), viewportPanelSize, ImVec2(0, 1), ImVec2(1, 0));
 
 			ImGui::End();
 		}
@@ -105,6 +129,7 @@ int main()
 		#pragma endregion
 		
 		StarterScene.Update(deltaTime);
+		FrameBuffer.Unbind();
 
 		Cobalt::ImGUI::Render();
 		glfwSwapBuffers(window.GetWindow());
